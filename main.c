@@ -7,37 +7,41 @@
 #include <errno.h>
 #include "shell.h"
 
-#define PROMPT "prompt> "
-
 /* Function prototypes */
 void handle_eof(void);
 ssize_t read_input(char **input_line, size_t *buffer_size);
 void execute_command(char *command);
 
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success).
+ */
+
 int main(void)
 {
-    char *input_line = NULL;
-    size_t buffer_size = 0;
-    ssize_t bytes_read;
+	char *input_line = NULL;
+	size_t buffer_size = 0;
+	ssize_t bytes_read;
 
-    while (1)
-    {
-        printf(PROMPT);
-        bytes_read = read_input(&input_line, &buffer_size);
-        if (bytes_read == -1)
-        {
-            handle_eof();
-            break;
-        }
+	while (1)
+	{
+		printf("#cisfun$ ");
+		bytes_read = read_input(&input_line, &buffer_size);
+		if (bytes_read == -1)
+	{
+		handle_eof();
+		break;
+	}
 
-        if (input_line[bytes_read - 1] == '\n')
-            input_line[bytes_read - 1] = '\0';
+		if (input_line[bytes_read - 1] == '\n')
+		input_line[bytes_read - 1] = '\0';
 
-        execute_command(input_line);
-    }
+		execute_command(input_line);
+	}
 
-    free(input_line);
-    return 0;
+	free(input_line);
+	return (0);
 }
 
 /**
@@ -45,10 +49,10 @@ int main(void)
  */
 void handle_eof(void)
 {
-    if (feof(stdin))
-        printf("\n");
-    else
-        perror("getline error");
+	if (feof(stdin))
+	printf("\n");
+	else
+	perror("getline error");
 }
 
 /**
@@ -61,7 +65,7 @@ void handle_eof(void)
  */
 ssize_t read_input(char **input_line, size_t *buffer_size)
 {
-    return getline(input_line, buffer_size, stdin);
+	return (getline(input_line, buffer_size, stdin));
 }
 
 /**
@@ -71,28 +75,28 @@ ssize_t read_input(char **input_line, size_t *buffer_size)
  */
 void execute_command(char *command)
 {
-    pid_t child_pid;
-    int child_status;
+	pid_t child_pid;
+	int child_status;
 
-    child_pid = fork();
-    if (child_pid == -1)
-    {
-        perror("fork error");
-        return;
-    }
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+	perror("fork error");
+	return;
+	}
 
-    if (child_pid == 0)
-    {
-        char *arguments[] = {command, NULL};
-        if (execve(command, arguments, environ) == -1)
-        {
-            perror("execve error");
-            exit(EXIT_FAILURE);
-        }
-    }
-    else
-    {
-        wait(&child_status);
-    }
+	if (child_pid == 0)
+	{
+	char *arguments[] = {command, NULL};
+
+	if (execve(command, arguments, environ) == -1)
+	{
+		perror("execve error");
+		exit(EXIT_FAILURE);
+	}
+	}
+	else
+	{
+		wait(&child_status);
+	}
 }
-
