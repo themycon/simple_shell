@@ -13,7 +13,7 @@ ssize_t read_input(char **input_line, size_t *buffer_size);
 void execute_command(char *command);
 
 /**
- * main - Entry point
+ * main - Entry point of the simple shell program
  *
  * Return: Always 0 (Success).
  */
@@ -61,7 +61,7 @@ void handle_eof(void)
  * @input_line: Pointer to buffer where input will be stored.
  * @buffer_size: Size of the buffer.
  *
- * Return: Number of bytes read, or -1 on error.
+ * Return: Number of bytes read, or -1 if error.
  */
 ssize_t read_input(char **input_line, size_t *buffer_size)
 {
