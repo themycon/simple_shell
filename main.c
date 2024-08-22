@@ -78,6 +78,11 @@ void execute_command(char *command)
 	pid_t child_pid;
 	int child_status;
 	char *arguments[2];
+	char *error_prefix = "./hsh: ";
+	char *error_suffix = ": not found\n";
+	int prefix_len = strlen(error_prefix);
+	int command_len = strlen(command);
+	int suffix_len = strlen(error_suffix);
 
 	arguments[0] = command;
 	arguments[1] = NULL;
@@ -93,7 +98,9 @@ void execute_command(char *command)
 	{
 		if (execve(command, arguments, environ) == -1)
 		{
-			perror("execve error");
+			write(STDERR_FILENO, error_prefix, prefix_len);
+			write(STDERR_FILENO, command, command_len);
+			write(STDERR_FILENO, error_suffix, suffix_len);
 			exit(EXIT_FAILURE);
 		}
 	}
