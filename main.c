@@ -77,23 +77,25 @@ void execute_command(char *command)
 {
 	pid_t child_pid;
 	int child_status;
+	char *arguments[2];
+
+	arguments[0] = command;
+	arguments[1] = NULL;
 
 	child_pid = fork();
 	if (child_pid == -1)
 	{
-	perror("fork error");
-	return;
+		perror("fork error");
+		return;
 	}
 
 	if (child_pid == 0)
 	{
-	char *arguments[] = {command, NULL};
-
-	if (execve(command, arguments, environ) == -1)
-	{
-		perror("execve error");
-		exit(EXIT_FAILURE);
-	}
+		if (execve(command, arguments, environ) == -1)
+		{
+			perror("execve error");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
