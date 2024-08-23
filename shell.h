@@ -13,6 +13,7 @@ extern char **environ;  /* Declaration of the environ variable */
 
 void handle_eof(void);
 ssize_t read_input(char **input_line, size_t *buffer_size);
-void execute_command(char *command);
+char **parse_input(char *input_line);
+void execute_command(char **arguments);
 
 #endif /* SHELL_H */
