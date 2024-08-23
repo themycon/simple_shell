@@ -17,6 +17,7 @@ char **parse_input(char *input_line);
 void execute_command(char **arguments);
 size_t my_strlen(const char *str);
 char *my_strcpy(char *destination, const char *source);
-char *my_strcat(char *destination, const char *source);
+char *my_strcat(char *destination, char *source);
+char *my_strncat(char *destination, const char *source, size_t num);
 
 #endif /* SHELL_H */
