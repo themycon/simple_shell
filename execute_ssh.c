@@ -12,14 +12,6 @@
  * @arguments: Array of command and arguments to execute.
  */
 
-size_t my_strlen(const char *s)
-{
-	size_t len = 0;
-	while (s[len] != '\0')
-	len++;
-	return (len);
-}
-
 void execute_command(char **arguments)
 {
 	pid_t child_pid;
