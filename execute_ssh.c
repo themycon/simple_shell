@@ -11,15 +11,24 @@
  *
  * @arguments: Array of command and arguments to execute.
  */
+
+size_t my_strlen(const char *s)
+{
+	size_t len = 0;
+	while (s[len] != '\0')
+	len++;
+	return (len);
+}
+
 void execute_command(char **arguments)
 {
 	pid_t child_pid;
 	int child_status;
 	char *error_prefix = "./hsh: ";
 	char *error_suffix = ": not found\n";
-	int prefix_len = strlen(error_prefix);
-	int command_len = strlen(arguments[0]);
-	int suffix_len = strlen(error_suffix);
+	int prefix_len = my_strlen(error_prefix);
+	int command_len = my_strlen(arguments[0]);
+	int suffix_len = my_strlen(error_suffix);
 
 	child_pid = fork();
 	if (child_pid == -1)

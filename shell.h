@@ -15,5 +15,8 @@ void handle_eof(void);
 ssize_t read_input(char **input_line, size_t *buffer_size);
 char **parse_input(char *input_line);
 void execute_command(char **arguments);
+size_t my_strlen(const char *str);
+char *my_strcpy(char *destination, const char *source);
+char *my_strcat(char *destination, const char *source);
 
 #endif /* SHELL_H */
