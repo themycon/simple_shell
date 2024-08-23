@@ -70,20 +70,20 @@ char *find_command_path(char *command)
 	dir_len = _strlen(dir);
 	full_path = malloc(dir_len + command_len + 2); /* +2 for '/' and '\0' */
 	if (!full_path)
-        free(path_copy);
-            return (NULL);
+	free(path_copy);
+	return (NULL);
 	
 
-        _strcpy(full_path, dir);
-        _strcat(full_path, "/");
-        _strcat(full_path, command);
+	_strcpy(full_path, dir);
+	_strcat(full_path, "/");
+	_strcat(full_path, command);
 
-        if (access(full_path, X_OK) == 0) /* Check if the command is executable */
+	if (access(full_path, X_OK) == 0) /* Check if the command is executable */
 	{
-      	
+
 	command_found = 1;
 		break;
-        }
+	}
 
 	
 	free(full_path);
@@ -94,6 +94,6 @@ char *find_command_path(char *command)
 	free(path_copy);
 	if (command_found)
 	return (full_path);
-    else
-        return (NULL);
+	else
+	return (NULL);
 }
