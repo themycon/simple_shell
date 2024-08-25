@@ -92,7 +92,7 @@ void execute_command(char **arguments)
  */
 char *find_in_path(char *command)
 {
-	char *path = getenv("PATH");
+	char *path =my_get_env("PATH");
 	char *path_copy = malloc(my_strlen(path) + 1);
 	char *dir;
 	char *full_path = malloc(PATH_MAX);

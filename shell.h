@@ -20,7 +20,9 @@ size_t my_strlen(const char *s);
 char *my_strcpy(char *destination, const char *source);
 char *my_strcat(char *destination, char *source);
 char *my_strncat(char *destination, const char *source, size_t num);
-char *find_command_path(char *command);
 char *find_in_path(char *command);
 int my_strcmp(const char *, const char *);
+char *my_get_env(const char *var_name);
+int my_strncmp(const char *s1, const char *s2, size_t n);
+	
 #endif /* SHELL_H */
