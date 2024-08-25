@@ -31,7 +31,7 @@ int main(void)
 
 		arguments = parse_input(input_line);
 		if (arguments[0] != NULL)
-		execute_command(arguments);
+			execute_command(arguments);
 
 		free(arguments);
 	}

@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <errno.h>
+#include <limits.h>
 
 extern char **environ;  /* Declaration of the environ variable */
 
@@ -20,5 +21,6 @@ char *my_strcpy(char *destination, const char *source);
 char *my_strcat(char *destination, char *source);
 char *my_strncat(char *destination, const char *source, size_t num);
 char *find_command_path(char *command);
-
+char *find_in_path(char *command);
+int my_strcmp(const char *, const char *);
 #endif /* SHELL_H */
