@@ -47,13 +47,15 @@ void execute_command(char **arguments)
 {
 	pid_t child_pid;
 	int child_status;
-	char *command = get_command(arguments);
+	char *command;
 
 	if (my_strcmp(arguments[0], "exit")==0)
 	{
+		free(arguments);
 		exit(0);
 	}
 
+	command= get_command(arguments);
 	if (command == NULL)
 	{
 		return;
