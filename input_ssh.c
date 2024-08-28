@@ -46,12 +46,12 @@ char **parse_input(char *input_line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(input_line, " ");
+	token = strtok(input_line, " \t");
 	while (token != NULL)
 	{
 		arguments[index] = token;
 		index++;
-		token = strtok(NULL, " ");
+		token = strtok(NULL, " \t");
 	}
 	arguments[index] = NULL;
 

@@ -82,6 +82,7 @@ void execute_command(char **arguments, char *prog_name)
 	if (child_pid == -1)
 	{
 		perror("fork error");
+		free(command);
 		return;
 	}
 
@@ -89,13 +90,14 @@ void execute_command(char **arguments, char *prog_name)
 	{
 		if (execve(command, arguments, environ) == -1)
 		{
-		print_error(prog_name, arguments[0]);
-		exit(EXIT_FAILURE);
+			print_error(prog_name, arguments[0]);
+			free(command);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-	wait(&child_status);
+		wait(&child_status);
 	}
 	free(command);
 }
