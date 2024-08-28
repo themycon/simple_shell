@@ -7,9 +7,9 @@
 #include "shell.h"
 
 /**
- * execute_command - Create a child process and execute the command.
+ * print_error - prints error message std err if cmd is not found.
  *
- * @arguments: Array of command and arguments to execute.
+ * @command: command that led to the error.
  */
 
 void print_error(char *command)
@@ -25,6 +25,13 @@ void print_error(char *command)
 	write(STDERR_FILENO, error_suffix, suffix_len);
 }
 
+/**
+ * get_command - Retrieve the full command path or search in PATH.
+ * @arguments: Array of command and arguments to execute.
+ *
+ * Return: Full path to the command if found, otherwise NULL.
+ */
+
 char *get_command(char **arguments)
 {
 	char *command = NULL;
@@ -32,7 +39,7 @@ char *get_command(char **arguments)
 	if (access(arguments[0], F_OK) == 0)
 	{
 		command = arguments[0];
-	}else
+	} else
 	{
 		command = find_in_path(arguments[0]);
 		if (command == NULL)
@@ -43,19 +50,24 @@ char *get_command(char **arguments)
 	return (command);
 }
 
+/**
+ * execute_command - Create a child process and execute the command.
+ * @arguments: Array of command and arguments to execute.
+ */
+
 void execute_command(char **arguments)
 {
 	pid_t child_pid;
 	int child_status;
 	char *command;
 
-	if (my_strcmp(arguments[0], "exit")==0)
+	if (my_strcmp(arguments[0], "exit") == 0)
 	{
 		free(arguments);
 		exit(0);
 	}
 
-	command= get_command(arguments);
+	command = get_command(arguments);
 	if (command == NULL)
 	{
 		return;
@@ -92,38 +104,42 @@ void execute_command(char **arguments)
  */
 char *find_in_path(char *command)
 {
-	char *path =my_get_env("PATH");
+	char *path = my_get_env("PATH");
 	char *path_copy = malloc(my_strlen(path) + 1);
 	char *dir;
-	char *full_path = malloc(PATH_MAX);
-/**
- * size_t command_len = my_strlen(command);
- */
+	char *full_path;
 
-	if (!path || !path_copy || !full_path)
-		return (NULL);
+	if (!path || !path_copy)
+	{
+	return (NULL);
+	}
 
 	my_strcpy(path_copy, path);
-
 	dir = strtok(path_copy, ":");
+
 	while (dir != NULL)
 	{
-		my_strcpy(full_path, dir);
-		my_strcat(full_path, "/");
-		my_strcat(full_path, command);
+	full_path = malloc(my_strlen(dir) + my_strlen(command) + 2);
+	if (!full_path)
+	{
+		free(path_copy);
+		return (NULL);
+	}
 
-		if (access(full_path, F_OK) == 0)
-		{
-			free(path_copy);
-			return (full_path);
-		}
+	my_strcpy(full_path, dir);
+	my_strcat(full_path, "/");
+	my_strcat(full_path, command);
 
-		dir = strtok(NULL, ":");
+	if (access(full_path, F_OK) == 0)
+	{
+		free(path_copy);
+		return (full_path);
+	}
 
+	free(full_path);
+	dir = strtok(NULL, ":");
 	}
 
 	free(path_copy);
-	free(full_path);
 	return (NULL);
-
 }
