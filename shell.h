@@ -15,7 +15,7 @@ extern char **environ;  /* Declaration of the environ variable */
 void handle_eof(void);
 ssize_t read_input(char **input_line, size_t *buffer_size);
 char **parse_input(char *input_line);
-void execute_command(char **arguments);
+void execute_command(char **arguments, char *prog_name);
 size_t my_strlen(const char *s);
 char *my_strcpy(char *destination, const char *source);
 char *my_strcat(char *destination, char *source);

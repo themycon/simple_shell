@@ -8,18 +8,20 @@
 
 /**
  * print_error - prints error message std err if cmd is not found.
- *
+ * @prog_name: The name of the program (from argv[0]).
  * @command: command that led to the error.
  */
 
-void print_error(char *command)
+void print_error(char *prog_name, char *command)
 {
-	char *error_prefix = "./hsh: ";
+	char *error_prefix = ": 1: ";
 	char *error_suffix = ": not found\n";
+	int prog_len = my_strlen(prog_name);
 	int prefix_len = my_strlen(error_prefix);
 	int command_len = my_strlen(command);
 	int suffix_len = my_strlen(error_suffix);
 
+	write(STDERR_FILENO, prog_name, prog_len);
 	write(STDERR_FILENO, error_prefix, prefix_len);
 	write(STDERR_FILENO, command, command_len);
 	write(STDERR_FILENO, error_suffix, suffix_len);
@@ -28,11 +30,12 @@ void print_error(char *command)
 /**
  * get_command - Retrieve the full command path or search in PATH.
  * @arguments: Array of command and arguments to execute.
+ * @prog_name: The name of the program
  *
  * Return: Full path to the command if found, otherwise NULL.
  */
 
-char *get_command(char **arguments)
+char *get_command(char **arguments, char *prog_name)
 {
 	char *command = NULL;
 
@@ -44,7 +47,7 @@ char *get_command(char **arguments)
 		command = find_in_path(arguments[0]);
 		if (command == NULL)
 		{
-		print_error(arguments[0]);
+		print_error(prog_name, arguments[0]);
 		}
 	}
 	return (command);
@@ -53,9 +56,10 @@ char *get_command(char **arguments)
 /**
  * execute_command - Create a child process and execute the command.
  * @arguments: Array of command and arguments to execute.
+ * @prog_name: The name of the program
  */
 
-void execute_command(char **arguments)
+void execute_command(char **arguments, char *prog_name)
 {
 	pid_t child_pid;
 	int child_status;
@@ -67,7 +71,7 @@ void execute_command(char **arguments)
 		exit(0);
 	}
 
-	command = get_command(arguments);
+	command = get_command(arguments, prog_name);
 	if (command == NULL)
 	{
 		return;
@@ -85,7 +89,7 @@ void execute_command(char **arguments)
 	{
 		if (execve(command, arguments, environ) == -1)
 		{
-		print_error(arguments[0]);
+		print_error(prog_name, arguments[0]);
 		exit(EXIT_FAILURE);
 		}
 	}
