@@ -24,5 +24,5 @@ char *find_in_path(char *command);
 int my_strcmp(const char *, const char *);
 char *my_get_env(const char *var_name);
 int my_strncmp(const char *s1, const char *s2, size_t n);
-	
+
 #endif /* SHELL_H */
