@@ -36,9 +36,10 @@ ssize_t read_input(char **input_line, size_t *buffer_size)
  */
 char **parse_input(char *input_line)
 {
-	char **arguments = malloc(64 * sizeof(char *));
+	size_t bufsize = 64;
+	char **arguments = malloc(bufsize * sizeof(char *));
 	char *token;
-	int index = 0;
+	size_t index = 0;
 
 	if (arguments == NULL)
 	{
@@ -51,6 +52,19 @@ char **parse_input(char *input_line)
 	{
 		arguments[index] = token;
 		index++;
+
+		if (index >= bufsize)
+		{
+			bufsize += 64;
+			arguments = my_realloc(arguments,
+					bufsize * sizeof(char *),
+					bufsize * sizeof(char *));
+			if (arguments == NULL)
+			{
+				perror("realloc error");
+				exit(EXIT_FAILURE);
+			}
+		}
 		token = strtok(NULL, " \t");
 	}
 	arguments[index] = NULL;

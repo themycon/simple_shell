@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 			break;
 		}
 
-		if (input_line[bytes_read - 1] == '\n')
+		if (bytes_read > 0 && input_line[bytes_read - 1] == '\n')
 			input_line[bytes_read - 1] = '\0';
 
 		arguments = parse_input(input_line);
